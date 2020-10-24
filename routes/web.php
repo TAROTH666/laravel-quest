@@ -11,10 +11,22 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'UsersController@index');
 
 // ユーザ登録
 Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup');
 Route::post('signup', 'Auth\RegisterController@register')->name('signup.post');
+
+//ログインフォームを表示
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+//ログインフォームに入力された内容（メールアドレス・パスワードなどを）を送信
+Route::post('login', 'Auth\LoginController@login')->name('login.post');
+//ログアウトを行う
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+
+//省略した書き方
+Route::resource('users', 'UsersController', ['only' => ['show']]);
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('movies', 'MoviesController', ['only' => ['create', 'store', 'destroy']]);
+});
