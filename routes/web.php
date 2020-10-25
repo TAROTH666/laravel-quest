@@ -27,6 +27,38 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 //省略した書き方
 Route::resource('users', 'UsersController', ['only' => ['show']]);
 
+//フォローする・外す
+
+Route::group(['prefix' => 'users/{id}'], function () {
+    Route::get('followings', 'UsersController@followings')->name('followings');
+    Route::get('followers', 'UsersController@followers')->name('followers');
+    });
+    
+Route::group(['prefix' => 'users/{id}'], function () {
+        Route::post('follow', 'UserFollowController@store')->name('follow');
+        Route::delete('unfollow', 'UserFollowController@destroy')->name('unfollow');
+});
+    
+Route::group(['middleware' => 'auth'], function () {
+    Route::put('users', 'UsersController@rename')->name('rename');
+});    
+
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('movies', 'MoviesController', ['only' => ['create', 'store', 'destroy']]);
 });
+
+
+//チャンネル・ユーザ名を変更する
+Route::group(['middleware' => 'auth'], function () {
+    Route::put('users', 'UsersController@rename')->name('rename');
+    
+    Route::group(['prefix' => 'users/{id}'], function () {
+        Route::post('follow', 'UserFollowController@store')->name('follow');
+        Route::delete('unfollow', 'UserFollowController@destroy')->name('unfollow');
+    });
+    
+    Route::resource('movies', 'MoviesController', ['only' => ['create', 'store', 'destroy']]);
+});
+
+
+
