@@ -33,6 +33,9 @@ Route::group(['prefix' => 'users/{id}'], function () {
     Route::get('followings', 'UsersController@followings')->name('followings');
     Route::get('followers', 'UsersController@followers')->name('followers');
     });
+
+//他社サービスとの連携
+Route::resource('rest','RestappController', ['only' => ['index', 'show', 'create', 'store', 'destroy']]);   
     
 Route::group(['prefix' => 'users/{id}'], function () {
         Route::post('follow', 'UserFollowController@store')->name('follow');
@@ -59,6 +62,5 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::resource('movies', 'MoviesController', ['only' => ['create', 'store', 'destroy']]);
 });
-
 
 
