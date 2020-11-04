@@ -48,12 +48,17 @@
                             <iframe width="290" height="163.125" src="{{ 'https://www.youtube.com/embed/'.$movie->url }}?controls=1&loop=1&playlist={{ $movie->url }}" frameborder="0"></iframe>
                         @else
                             <iframe width="290" height="163.125" src="https://www.youtube.com/embed/" frameborder="0"></iframe>
+                            @php
+                                $video_title="※動画が未登録です";
+                            @endphp
                         @endif
                     </div>
                     
                     <p>
                         @if(isset($movie->comment))
-                               {{ $movie->comment }}
+                            {{ $movie->comment }}
+                        @else
+                            {{ $video_title }}
                         @endif
                     </p>
                     
