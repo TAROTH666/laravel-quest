@@ -4,7 +4,7 @@
 
         @php
     
-        $movie=$user->movies->last();
+        
         
         if($movie){
         
